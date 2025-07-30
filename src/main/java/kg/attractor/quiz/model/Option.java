@@ -14,6 +14,7 @@ public class Option {
     private String option;
     private boolean is_correct;
     private int question_id;
+    private String check;
 
 
 }
