@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
-      id: 008_insert_data_to_tables_roles_authorities_user_table
-      author: A
+      id: 005_insert_data_to_tables_roles_authorities_user_table
+      author: Askar
       changes:
         - sql:
             comment: insert default authorities
@@ -14,17 +14,3 @@ databaseChangeLog:
               insert into roles(role_name, authority_id)
               values('ADMIN', (select id from authorities where authority = 'FULL')),
               ('USER', (select id from authorities where authority = 'READ_ONLY'));
-        - sql:
-            comment: insert default users
-            sql: |
-              insert into users(role_id)
-              values
-              (
-                (select id from roles where role_name = 'ADMIN')
-              ),
-              (
-                (select id from roles where role_name = 'USER')
-              ),
-              (
-                (select id from roles where role_name = 'USER')
-              );

@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: 006_create_table_roles
-      author: Aleksei Podstavin
+      author: Askar
       changes:
         - createTable:
             tableName: roles
