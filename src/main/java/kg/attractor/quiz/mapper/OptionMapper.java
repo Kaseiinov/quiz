@@ -12,6 +12,7 @@ public class OptionMapper implements RowMapper<Option> {
     @Override
     public Option mapRow(ResultSet rs, int rowNum) throws SQLException {
         Option option = new Option();
+        option.setId(rs.getLong("id"));
         option.setQuestionId(rs.getLong("question_id"));
         option.setOption(rs.getString("option_text"));
         option.setIsCorrect(rs.getBoolean("is_correct"));

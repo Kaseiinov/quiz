@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class QuestionOptionDto {
     @NotBlank
-    private String question;
+    private QuestionDto question;
     @NotNull
     private List<OptionDto> options = new ArrayList<>();
 }

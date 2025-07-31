@@ -49,6 +49,7 @@ public class QuizServiceImpl implements QuizService {
                 .stream()
                 .map(o -> OptionDto
                         .builder()
+                        .id(o.getId())
                         .question_id(o.getQuestionId())
                         .option(o.getOption())
                         .isCorrect(null)
@@ -58,7 +59,7 @@ public class QuizServiceImpl implements QuizService {
         List<QuestionOptionDto> qo = new ArrayList<>();
         for (QuestionDto question : questionDtos) {
             QuestionOptionDto newQO = new QuestionOptionDto();
-            newQO.setQuestion(question.getQuestion());
+            newQO.setQuestion(question);
             for (OptionDto option : optionDtos) {
                 if(question.getId().equals(option.getQuestion_id())){
                     newQO.getOptions().add(option);
@@ -70,6 +71,7 @@ public class QuizServiceImpl implements QuizService {
 
         return QuizDto
                 .builder()
+                .id(quiz.getId())
                 .title(quiz.getTitle())
                 .description(quiz.getDescription())
                 .creatorId(quiz.getCreatorId())
@@ -100,6 +102,7 @@ public class QuizServiceImpl implements QuizService {
     public void createQuiz(QuizDto quizDto) {
         Quiz quiz = Quiz
                 .builder()
+                .id(quizDto.getId())
                 .title(quizDto.getTitle())
                 .description(quizDto.getDescription())
                 .creatorId(quizDto.getCreatorId())
@@ -114,7 +117,7 @@ public class QuizServiceImpl implements QuizService {
             Question question = Question
                     .builder()
                     .quizId(quizId)
-                    .question(questionOptionDto.getQuestion())
+                    .question(questionOptionDto.getQuestion().getQuestion())
                     .build();
             Long questionId = questionDao.createQuestion(question);
             log.info("Question created: {} id: {}", question.getQuestion(), questionId);

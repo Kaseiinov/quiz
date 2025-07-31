@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 @Builder
 public class QuizDto {
+    private Long id;
     @NotBlank
     private String title;
     @NotBlank
