@@ -2,21 +2,20 @@ package kg.attractor.quiz.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
 @Builder
-public class QuizDto {
+@NoArgsConstructor
+@AllArgsConstructor
+public class QuestionOptionDto {
     @NotBlank
-    private String title;
-    @NotBlank
-    private String description;
+    private String question;
     @NotNull
-    private Long creatorId;
-
-    @NotNull
-    private List<QuestionOptionDto> questionOptions;
+    private List<OptionDto> options;
 }

@@ -3,6 +3,8 @@ package kg.attractor.quiz.service.impl;
 import kg.attractor.quiz.dao.OptionDao;
 import kg.attractor.quiz.dao.QuestionDao;
 import kg.attractor.quiz.dao.QuizDao;
+import kg.attractor.quiz.dto.OptionDto;
+import kg.attractor.quiz.dto.QuestionOptionDto;
 import kg.attractor.quiz.dto.QuizDto;
 import kg.attractor.quiz.model.Option;
 import kg.attractor.quiz.model.Question;
@@ -12,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,26 +36,28 @@ public class QuizServiceImpl implements QuizService {
         Long quizId = quizDao.createQuiz(quiz);
         log.info("Quiz created: {} id: {}", quiz.getTitle(), quizId);
 
-        Question question = Question
-                .builder()
-                .quizId(quizId)
-                .question(quizDto.getQuestion().getQuestion())
-                .build();
+        List<QuestionOptionDto> questionOptions = quizDto.getQuestionOptions();
 
-        Long questionId = questionDao.createQuestion(question);
-        log.info("Question created: {} id: {}", question.getQuestion(), questionId);
+        for (QuestionOptionDto questionOptionDto : questionOptions) {
+            Question question = Question
+                    .builder()
+                    .quizId(quizId)
+                    .question(questionOptionDto.getQuestion())
+                    .build();
+            Long questionId = questionDao.createQuestion(question);
+            log.info("Question created: {} id: {}", question.getQuestion(), questionId);
 
-        List<Option> optionList = quizDto.getOptions()
-                .stream()
-                .map(o -> Option
+            for (OptionDto optionDto : questionOptionDto.getOptions()) {
+                Option option = Option
                         .builder()
                         .questionId(questionId)
-                        .option(o.getOption())
-                        .isCorrect(o.getIsCorrect())
-                        .build()).toList();
-        for (Option option : optionList) {
-            optionDao.createOption(option);
-            log.info("Options created: {}", option.getOption());
+                        .option(optionDto.getOption())
+                        .isCorrect(optionDto.getIsCorrect())
+                        .build();
+                optionDao.createOption(option);
+                log.info("Option created: {}", option.getOption());
+            }
         }
     }
+
 }
