@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005_modify_table_users
+      author: Askar
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: enabled
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+
