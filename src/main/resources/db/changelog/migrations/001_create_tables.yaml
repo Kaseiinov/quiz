@@ -1,163 +1,130 @@
 databaseChangeLog:
   - changeSet:
-      id: Create unnecessary tables
-      author: Kaseiinov_I
+      id: create-user
+      author: Askar
       changes:
         - createTable:
             tableName: users
             columns:
               - column:
                   name: id
-                  type: bigint
+                  type: long
                   autoIncrement: true
                   constraints:
-                    nullable: false
                     primaryKey: true
               - column:
                   name: username
-                  type: varchar(55)
-                  constraints:
-                    nullable: false
+                  type: varchar(100)
               - column:
                   name: email
-                  type: varchar(55)
-                  constraints:
-                    nullable: false
-                    unique: true
+                  type: varchar(150)
+
               - column:
                   name: password
                   type: varchar(255)
-                  constraints:
-                    nullable: false
 
+
+
+  - changeSet:
+      id: create-quiz-table
+      author: Askar
+      changes:
         - createTable:
             tableName: quizzes
             columns:
               - column:
                   name: id
-                  type: bigint
+                  type: long
                   autoIncrement: true
                   constraints:
-                    nullable: false
                     primaryKey: true
               - column:
                   name: title
-                  type: varchar(55)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: description
                   type: varchar(255)
               - column:
+                  name: description
+                  type: text
+              - column:
                   name: creator_id
-                  type: bigint
+                  type: long
                   constraints:
-                    nullable: false
-        - addForeignKeyConstraint:
-            baseTableName: quizzes
-            baseColumnNames: creator_id
-            referencedTableName: users
-            referencedColumnNames: id
-            constraintName: fk_creator_id_users
-            onUpdate: cascade
-            onDelete: restrict
+                    foreignKeyName: fk_quiz_creator
+                    references: users(id)
 
-
+  - changeSet:
+      id: create-question-table
+      author: Askar
+      changes:
         - createTable:
             tableName: questions
             columns:
               - column:
                   name: id
-                  type: bigint
+                  type: long
                   autoIncrement: true
                   constraints:
-                    nullable: false
                     primaryKey: true
               - column:
-                  name: quiz_id
-                  type: bigint
-                  constraints:
-                    nullable: false
-              - column:
-                  name: question_text
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-        - addForeignKeyConstraint:
-            baseTableName: questions
-            baseColumnNames: quiz_id
-            referencedTableName: quizzes
-            referencedColumnNames: id
-            constraintName: fk_quiz_id_quizzes
-            onUpdate: cascade
-            onDelete: restrict
-
-        - createTable:
-            tableName: quiz_results
-            columns:
-              - column:
-                  name: id
-                  type: bigint
-                  autoIncrement: true
-                  constraints:
-                    nullable: false
-                    primaryKey: true
-              - column:
-                  name: user_id
-                  type: bigint
+                  name: question
+                  type: text
               - column:
                   name: quiz_id
-                  type: bigint
-              - column:
-                  name: score
-                  type: double
-                  defaultValueNumeric: 0.0
+                  type: long
                   constraints:
-                    nullable: false
+                    foreignKeyName: fk_question_quiz
+                    references: quizzes(id)
 
-        - addForeignKeyConstraint:
-            baseTableName: quiz_results
-            baseColumnNames: user_id
-            referencedTableName: users
-            referencedColumnNames: id
-            constraintName: fk_user_id_users_quiz_results
-            onUpdate: cascade
-            onDelete: restrict
-
-        - addForeignKeyConstraint:
-            baseTableName: quiz_results
-            baseColumnNames: quiz_id
-            referencedTableName: quizzes
-            referencedColumnNames: id
-            constraintName: fk_quiz_id_quizzes_quiz_results
-            onUpdate: cascade
-            onDelete: restrict
-
+  - changeSet:
+      id: create-option-table
+      author: Askar
+      changes:
         - createTable:
             tableName: options
             columns:
               - column:
                   name: id
-                  type: bigint
+                  type: long
                   autoIncrement: true
                   constraints:
-                    nullable: false
                     primaryKey: true
               - column:
-                  name: question_id
-                  type: bigint
-              - column:
-                  name: option_text
-                  type: varchar
+                  name: option
+                  type: text
               - column:
                   name: is_correct
                   type: boolean
+              - column:
+                  name: question_id
+                  type: long
+                  constraints:
+                    foreignKeyName: fk_option_question
+                    references: questions(id)
 
-        - addForeignKeyConstraint:
-            baseTableName: options
-            baseColumnNames: question_id
-            referencedTableName: questions
-            referencedColumnNames: id
-            constraintName: fk_question_id_questions
-            onUpdate: cascade
-            onDelete: restrict
+  - changeSet:
+      id: create-result-table
+      author: Askar
+      changes:
+        - createTable:
+            tableName: results
+            columns:
+              - column:
+                  name: id
+                  type: long
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: score
+                  type: double
+              - column:
+                  name: user_id
+                  type: long
+                  constraints:
+                    foreignKeyName: fk_result_user
+                    references: users(id)
+              - column:
+                  name: quiz_id
+                  type: long
+                  constraints:
+                    foreignKeyName: fk_result_quiz
+                    references: quizzes(id)

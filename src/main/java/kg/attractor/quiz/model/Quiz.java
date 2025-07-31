@@ -8,6 +8,8 @@ import lombok.*;
 
 import java.util.List;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -17,8 +19,6 @@ public class Quiz {
     private String title;
     private String description;
     private Long creatorId;
-
     private Question question;
-
     private List<Option> options;
 }
