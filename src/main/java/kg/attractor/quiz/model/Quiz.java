@@ -11,8 +11,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Quiz {
-    private long id;
+    private Long id;
     private String title;
     private String description;
-    private long creator_id;
+    private Long creatorId;
 }

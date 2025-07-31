@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Question {
-    private long id;
+    private Long id;
     private String question;
-    private long quiz_id;
+    private Long quizId;
 }

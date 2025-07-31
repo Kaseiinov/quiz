@@ -10,8 +10,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Result {
-    private long id;
+    private Long id;
     private Double score;
-    private long user_id;
-    private long quiz_id;
+    private Long userId;
+    private Long quizId;
 }
