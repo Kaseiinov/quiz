@@ -16,5 +16,4 @@ public class Option {
     private String option;
     private Boolean isCorrect;
     private long question_id;
-    private String check;
 }
