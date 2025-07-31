@@ -14,7 +14,7 @@ public class ResultController {
     @PostMapping
     public ResponseEntity<String> saveResult(@RequestBody Result result) {
         //TODO
-        return ResponseEntity.status(HttpStatus.CREATED).body("Result saved (заглушка)");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Result saved");
     }
 
     public ResponseEntity<List<Result>> getResultsByUser(@PathVariable Long userId) {
