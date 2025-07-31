@@ -1,13 +1,21 @@
 package kg.attractor.quiz.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
 public class StatisticsDto {
-    private int totalQuizzesTaken;
+    @NotNull
+    private Integer totalQuizzesTaken;
+
+    @NotNull
     private double averageScore;
-    private int totalCorrectAnswers;
-    private int totalQuestionAnswered;
+
+    @NotNull
+    private Integer totalCorrectAnswers;
+
+    @NotNull
+    private Integer totalQuestionAnswered;
 }

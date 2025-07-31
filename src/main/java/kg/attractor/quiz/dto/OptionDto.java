@@ -10,5 +10,5 @@ public class OptionDto {
     @NotBlank
     private String option;
 
-    private boolean is_correct;
+    private Boolean isCorrect;
 }

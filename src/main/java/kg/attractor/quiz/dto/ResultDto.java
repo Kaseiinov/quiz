@@ -8,5 +8,5 @@ import lombok.Builder;
 @Builder
 public class ResultDto {
     @NotNull
-    private int score;
+    private Double score;
 }

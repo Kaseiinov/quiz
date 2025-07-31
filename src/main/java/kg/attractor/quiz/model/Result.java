@@ -8,8 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Result {
-    private int id;
-    private int score;
-    private int user_id;
-    private int quiz_id;
+    private long id;
+    private Double score;
+    private long user_id;
+    private long quiz_id;
 }

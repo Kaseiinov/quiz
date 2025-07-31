@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Question {
-    private int id;
+    private long id;
     private String question;
-    private int quiz_id;
+    private long quiz_id;
 }

@@ -10,11 +10,9 @@ import javax.naming.ldap.PagedResultsControl;
 @Getter
 @Setter
 public class Option {
-    private int id;
+    private long id;
     private String option;
-    private boolean is_correct;
-    private int question_id;
+    private Boolean isCorrect;
+    private long question_id;
     private String check;
-
-
 }
