@@ -8,6 +8,8 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class OptionDao {
@@ -24,5 +26,10 @@ public class OptionDao {
                         .addValue("optionText", option.getOption())
                         .addValue("isCorrect", option.getIsCorrect())
         );
+    }
+
+    public List<Option> getOptionsByQuestionId(Long questionId) {
+        String sql = "SELECT * FROM options WHERE question_id = ?";
+        return jdbcTemplate.query(sql, new OptionMapper(), questionId);
     }
 }
