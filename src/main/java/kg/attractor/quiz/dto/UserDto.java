@@ -10,6 +10,8 @@ import lombok.Data;
 @Data
 @Builder
 public class UserDto {
+    private Long id;
+
     @NotBlank
     private String username;
 
@@ -19,7 +21,7 @@ public class UserDto {
 
     @NotBlank
     @Size(min = 3, max = 24, message = "Length must be >= 4 and <= 24")
-    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-z]).+$"
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).+$"
             , message = "Should contain at least one uppercase letter, one number")
     private String password;
 

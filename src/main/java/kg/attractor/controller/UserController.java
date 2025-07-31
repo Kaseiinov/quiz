@@ -1,4 +1,4 @@
-package kg.attractor.quiz.controller;
+package kg.attractor.controller;
 
 import kg.attractor.quiz.dto.UserDto;
 import kg.attractor.quiz.service.UserService;
