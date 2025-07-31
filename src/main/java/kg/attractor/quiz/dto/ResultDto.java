@@ -1,12 +1,18 @@
 package kg.attractor.quiz.dto;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
+import lombok.Data;
 
-@Email
+@Data
 @Builder
 public class ResultDto {
     @NotNull
     private Double score;
+
+    @NotNull
+    private Long userId;
+
+    @NotNull
+    private Long quizId;
 }
