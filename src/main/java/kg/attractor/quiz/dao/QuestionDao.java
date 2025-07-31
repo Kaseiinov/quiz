@@ -1,5 +1,6 @@
 package kg.attractor.quiz.dao;
 
+import kg.attractor.quiz.mapper.QuestionMapper;
 import kg.attractor.quiz.model.Question;
 import kg.attractor.quiz.model.Quiz;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Objects;
 
 @Component
@@ -17,6 +19,11 @@ import java.util.Objects;
 public class QuestionDao {
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameter;
+
+    public List<Question> findQuestionsByQuizId(Long quizId) {
+        String sql = "select * from questions where quiz_id = ?";
+        return jdbcTemplate.query(sql, new QuestionMapper(), quizId);
+    }
 
     public Long createQuestion(Question question) {
         String sql = "insert into QUESTIONS(quiz_id, question_text) " +

@@ -7,6 +7,8 @@ import lombok.Data;
 @Data
 @Builder
 public class OptionDto {
+    private Long question_id;
+
     @NotBlank
     private String option;
 

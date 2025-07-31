@@ -4,6 +4,7 @@ import kg.attractor.quiz.dao.OptionDao;
 import kg.attractor.quiz.dao.QuestionDao;
 import kg.attractor.quiz.dao.QuizDao;
 import kg.attractor.quiz.dto.OptionDto;
+import kg.attractor.quiz.dto.QuestionDto;
 import kg.attractor.quiz.dto.QuestionOptionDto;
 import kg.attractor.quiz.dto.QuizDto;
 import kg.attractor.quiz.model.Option;
@@ -24,6 +25,55 @@ public class QuizServiceImpl implements QuizService {
     private final QuizDao quizDao;
     private final QuestionDao questionDao;
     private final OptionDao optionDao;
+
+    public QuizDto findById(Long id) {
+        Quiz quiz = quizDao.findById(id);
+        List<Question> questions = questionDao.findQuestionsByQuizId(quiz.getId());
+        List<Option> options = new ArrayList<>();
+        for (Question question : questions) {
+            options.addAll(optionDao.findByQuestionId(question.getId()));
+        }
+        List<QuestionDto> questionDtos = questions
+                .stream()
+                .map(q -> QuestionDto
+                        .builder()
+                        .id(q.getId())
+                        .quiz_id(q.getQuizId())
+                        .question(q.getQuestion())
+                        .build()
+                ).toList();
+        List<OptionDto> optionDtos = options
+                .stream()
+                .map(o -> OptionDto
+                        .builder()
+                        .question_id(o.getQuestionId())
+                        .option(o.getOption())
+                        .isCorrect(null)
+                        .build()
+                ).toList();
+
+        List<QuestionOptionDto> qo = new ArrayList<>();
+        for (QuestionDto question : questionDtos) {
+            QuestionOptionDto newQO = new QuestionOptionDto();
+            newQO.setQuestion(question.getQuestion());
+            for (OptionDto option : optionDtos) {
+                if(question.getId().equals(option.getQuestion_id())){
+                    newQO.getOptions().add(option);
+                }
+            }
+            qo.add(newQO);
+        }
+
+
+        return QuizDto
+                .builder()
+                .title(quiz.getTitle())
+                .description(quiz.getDescription())
+                .creatorId(quiz.getCreatorId())
+                .questionOptions(qo)
+                .build();
+
+    }
 
     public List<QuizDto> findQuizzes(){
         List<Quiz> quizzes = quizDao.findQuizzes();

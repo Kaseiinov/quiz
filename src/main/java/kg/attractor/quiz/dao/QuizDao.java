@@ -19,6 +19,11 @@ public class QuizDao {
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameter;
 
+    public Quiz findById(Long id){
+        String sql = "select * from quizzes where id = ?";
+        return jdbcTemplate.queryForObject(sql, new QuizMapper(), id);
+    }
+
     public Integer getCountOfQuestions(Long id) {
         String sql = "select count(*) \n" +
                 "from quizzes q\n" +
