@@ -12,6 +12,6 @@ import lombok.Setter;
 public class Result {
     private Long id;
     private Double score;
-    private Long user_id;
-    private Long quiz_id;
+    private Long userId;
+    private Long quizId;
 }

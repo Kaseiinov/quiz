@@ -12,5 +12,5 @@ import lombok.Setter;
 public class Question {
     private Long id;
     private String question;
-    private Long quiz_id;
+    private Long quizId;
 }

@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Data
 @Builder
 @Getter
@@ -14,5 +16,7 @@ public class Quiz {
     private Long id;
     private String title;
     private String description;
-    private Long creator_id;
+    private Long creatorId;
+    private Question question;
+    private List<Option> options;
 }
