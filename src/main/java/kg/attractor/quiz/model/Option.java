@@ -14,6 +14,6 @@ import javax.naming.ldap.PagedResultsControl;
 public class Option {
     private Long id;
     private String option;
-    private Boolean isCorrect;
+    private Boolean isCorrect ;
     private Long questionId;
 }
