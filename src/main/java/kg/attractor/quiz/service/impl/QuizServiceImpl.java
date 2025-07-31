@@ -26,6 +26,9 @@ public class QuizServiceImpl implements QuizService {
     private final QuestionDao questionDao;
     private final OptionDao optionDao;
 
+
+
+    @Override
     public QuizDto findById(Long id) {
         Quiz quiz = quizDao.findById(id);
         List<Question> questions = questionDao.findQuestionsByQuizId(quiz.getId());
@@ -75,6 +78,7 @@ public class QuizServiceImpl implements QuizService {
 
     }
 
+    @Override
     public List<QuizDto> findQuizzes(){
         List<Quiz> quizzes = quizDao.findQuizzes();
         for(Quiz quiz : quizzes){
@@ -92,6 +96,7 @@ public class QuizServiceImpl implements QuizService {
 
     }
 
+    @Override
     public void createQuiz(QuizDto quizDto) {
         Quiz quiz = Quiz
                 .builder()
