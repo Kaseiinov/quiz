@@ -14,9 +14,11 @@ public class QuizDto {
     private String title;
     @NotBlank
     private String description;
+    @NotNull
+    private Long creatorId;
 
     @NotNull
-    private List<QuestionDto> questions;
+    private QuestionDto question;
 
     @NotNull
     private List<OptionDto> options;

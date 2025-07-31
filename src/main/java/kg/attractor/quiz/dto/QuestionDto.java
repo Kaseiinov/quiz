@@ -9,4 +9,5 @@ import lombok.Data;
 public class QuestionDto {
     @NotBlank
     private String question;
+
 }
