@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
-      id: 005_modify_table_users
-      author: Askar
+      id: 007_modify_table_users
+      author: Aleksei Podstavin
       changes:
         - addColumn:
             tableName: users
@@ -12,4 +12,9 @@ databaseChangeLog:
                   defaultValueBoolean: true
                   constraints:
                     nullable: false
-
+              - column:
+                  name: role_id
+                  type: long
+                  constraints:
+                    foreignKeyName: fk_user_table_role_id
+                    references: roles(id)

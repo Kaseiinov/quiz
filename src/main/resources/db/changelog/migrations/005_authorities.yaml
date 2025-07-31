@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
-      id: 003_create_table_authorities
-      author: Askar
+      id: 005_create_table_authorities
+      author: Aleksei Podstavin
       changes:
         - createTable:
             tableName: authorities

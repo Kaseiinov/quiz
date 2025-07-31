@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: create-user-table
+      id: create-user
       author: Askar
       changes:
         - createTable:
@@ -8,25 +8,22 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: Long
+                  type: long
                   autoIncrement: true
                   constraints:
                     primaryKey: true
               - column:
                   name: username
                   type: varchar(100)
-                  constraints:
-                    nullable: false
               - column:
                   name: email
                   type: varchar(150)
-                  constraints:
-                    nullable: false
+
               - column:
                   name: password
                   type: varchar(255)
-                  constraints:
-                    nullable: false
+
+
 
   - changeSet:
       id: create-quiz-table
@@ -37,7 +34,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: Long
+                  type: long
                   autoIncrement: true
                   constraints:
                     primaryKey: true
@@ -49,7 +46,7 @@ databaseChangeLog:
                   type: text
               - column:
                   name: creator_id
-                  type: Long
+                  type: long
                   constraints:
                     foreignKeyName: fk_quiz_creator
                     references: users(id)
@@ -63,7 +60,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: Long
+                  type: long
                   autoIncrement: true
                   constraints:
                     primaryKey: true
@@ -72,7 +69,7 @@ databaseChangeLog:
                   type: text
               - column:
                   name: quiz_id
-                  type: Long
+                  type: long
                   constraints:
                     foreignKeyName: fk_question_quiz
                     references: quizzes(id)
@@ -86,7 +83,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: Long
+                  type: long
                   autoIncrement: true
                   constraints:
                     primaryKey: true
@@ -98,7 +95,7 @@ databaseChangeLog:
                   type: boolean
               - column:
                   name: question_id
-                  type: Long
+                  type: long
                   constraints:
                     foreignKeyName: fk_option_question
                     references: questions(id)
@@ -112,7 +109,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: Long
+                  type: long
                   autoIncrement: true
                   constraints:
                     primaryKey: true
@@ -121,13 +118,13 @@ databaseChangeLog:
                   type: double
               - column:
                   name: user_id
-                  type: Long
+                  type: long
                   constraints:
                     foreignKeyName: fk_result_user
                     references: users(id)
               - column:
                   name: quiz_id
-                  type: Long
+                  type: long
                   constraints:
                     foreignKeyName: fk_result_quiz
                     references: quizzes(id)
