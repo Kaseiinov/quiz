@@ -1,7 +1,7 @@
-INSERT INTO users (username, email, password) VALUES
-                                                      ('Bakyt', 'bakyt@example.com', 'pass'),
-                                                      ('Aizada', 'aizada@example.com', 'pass'),
-                                                      ('Nursultan', 'nursultan@example.com', 'pass');
+INSERT INTO users (username, email, password, role_id) VALUES
+                                                      ('Bakyt', 'bakyt@example.com', 'pass', select id from roles where role_name = 'ADMIN'),
+                                                      ('Aizada', 'aizada@example.com', 'pass', select id from roles where role_name = 'USER'),
+                                                      ('Nursultan', 'nursultan@example.com', 'pass', select id from roles where role_name = 'USER');
 
 INSERT INTO quizzes (id, title, description, creator_id) VALUES
                                                              (1, 'Города Кыргызстана', 'Проверь знания о городах Кыргызстана', 1),
@@ -42,3 +42,4 @@ INSERT INTO results (id, score, user_id, quiz_id) VALUES
                                                       (1, 2.0, 1, 1),
                                                       (2, 1.0, 2, 2),
                                                       (3, 0.0, 3, 1);
+
