@@ -1,5 +1,6 @@
 package kg.attractor.controller;
 
+import kg.attractor.quiz.dto.QuizDto;
 import kg.attractor.quiz.model.Quiz;
 import kg.attractor.quiz.service.QuizService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,12 @@ public class QuizController {
 
     private final QuizService quizService;
 
+    @PostMapping
+    public ResponseEntity<String> createQuiz(@Valid @RequestBody QuizDto quizDto) {
+        quizService.createQuiz(quizDto);
+        return ResponseEntity.ok("Quiz created successfully");
+    }
+
     @GetMapping
     public ResponseEntity<List<Quiz>> getAllQuizzes() {
         List<Quiz> quizzes = quizService.getAllQuizzes();
@@ -26,12 +33,6 @@ public class QuizController {
     public ResponseEntity<Quiz> getQuizById(@PathVariable Long id) {
         Quiz quiz = quizService.getQuizById(id);
         return ResponseEntity.ok(quiz);
-    }
-
-    @PostMapping
-    public ResponseEntity<Quiz> createQuiz(@Valid @RequestBody Quiz quiz) {
-        Quiz saved = quizService.createQuiz(quiz);
-        return ResponseEntity.ok(saved);
     }
 
     @DeleteMapping("/{id}")
