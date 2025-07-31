@@ -1,5 +1,6 @@
 package kg.attractor.quiz.model;
 
+import jdk.jfr.Enabled;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
