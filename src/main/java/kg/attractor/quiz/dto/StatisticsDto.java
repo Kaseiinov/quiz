@@ -11,7 +11,7 @@ public class StatisticsDto {
     private Integer totalQuizzesTaken;
 
     @NotNull
-    private double averageScore;
+    private Double averageScore;
 
     @NotNull
     private Integer totalCorrectAnswers;
