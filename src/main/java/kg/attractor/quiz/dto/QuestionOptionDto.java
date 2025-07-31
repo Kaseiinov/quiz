@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -17,5 +18,5 @@ public class QuestionOptionDto {
     @NotBlank
     private String question;
     @NotNull
-    private List<OptionDto> options;
+    private List<OptionDto> options = new ArrayList<>();
 }
