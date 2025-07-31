@@ -16,6 +16,7 @@ public class UserServiceImpl implements UserService {
     private final UserDao userDao;
     private final PasswordEncoder encoder;
 
+    @Override
     public void register(UserDto userDto) {
         User user =  User
                 .builder()
@@ -26,4 +27,5 @@ public class UserServiceImpl implements UserService {
         userDao.register(user);
         log.info("User {} registered", userDto.getEmail());
     }
+
 }
