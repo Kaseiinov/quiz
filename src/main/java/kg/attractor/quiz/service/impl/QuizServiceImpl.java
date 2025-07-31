@@ -25,6 +25,23 @@ public class QuizServiceImpl implements QuizService {
     private final QuestionDao questionDao;
     private final OptionDao optionDao;
 
+    public List<QuizDto> findQuizzes(){
+        List<Quiz> quizzes = quizDao.findQuizzes();
+        for(Quiz quiz : quizzes){
+            quiz.setCountOfQuestions(quizDao.getCountOfQuestions(quiz.getId()));
+        }
+        return quizzes
+                .stream()
+                .map(q -> QuizDto
+                        .builder()
+                        .title(q.getTitle())
+                        .description(q.getDescription())
+                        .creatorId(q.getCreatorId())
+                        .countOfQuestions(q.getCountOfQuestions())
+                        .build()).toList();
+
+    }
+
     public void createQuiz(QuizDto quizDto) {
         Quiz quiz = Quiz
                 .builder()

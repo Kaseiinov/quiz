@@ -19,4 +19,6 @@ public class QuizDto {
 
     @NotNull
     private List<QuestionOptionDto> questionOptions;
+
+    private Integer countOfQuestions;
 }

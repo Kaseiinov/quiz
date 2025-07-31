@@ -19,5 +19,5 @@ public class Quiz {
     private String description;
     private Long creatorId;
 
-
+    private Integer countOfQuestions;
 }
