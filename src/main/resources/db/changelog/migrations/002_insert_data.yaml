@@ -5,11 +5,11 @@ databaseChangeLog:
           changes:
               - sql: |
                     insert into authorities(authority)
-                      values('FULL'), ('READ_ONLY');
+                      values('full'), ('read_only');
                     
                     insert into roles(role_name, authority_id)
-                      values('admin', (select id from authorities where authority = 'FULL')),
-                            ('user', (select id from authorities where authority = 'READ_ONLY'));
+                      values('admin', (select id from authorities where authority = 'full')),
+                            ('user', (select id from authorities where authority = 'read_only'));
                     
                     INSERT INTO users (username, email, password, enabled, role_id) VALUES
                       ('Bakyt', 'bakyt@example.com', '$2a$10$QLjdf1RZCjBYwCG5DahE8OJft93BftkQZmd1WGL9MQZghceRZPQ4i', true, (SELECT id FROM roles WHERE role_name = 'user')),

@@ -47,20 +47,23 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(
-                                "/api/register",
-                                "/api/login",
-                                "/api/quizzes",
-                                "/api/quizzes/*",
-                                "/api/quizzes/*/leaderboard"
-                        ).permitAll()
-
-                        .requestMatchers(
                                 "/api/quizzes/*/solve",
                                 "/api/quizzes/*/rate",
                                 "/api/quizzes/*/results",
                                 "/api/users/*/statistics",
                                 "/api/quizzes"
-                        ).hasAuthority("user")
+                        ).fullyAuthenticated()
+
+                        .requestMatchers(
+                                "/api/register",
+                                "/api/login",
+
+                                "/api/quizzes/*",
+                                "/api/quizzes/*/leaderboard"
+                        ).permitAll()
+
+
+                        .requestMatchers(HttpMethod.POST, "/api/register").permitAll()
 
                         .anyRequest().denyAll()
                 );

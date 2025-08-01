@@ -23,6 +23,7 @@ public class UserServiceImpl implements UserService {
                 .username(userDto.getUsername())
                 .email(userDto.getEmail())
                 .password(encoder.encode(userDto.getPassword()))
+                .role_id(userDto.getRole_id())
                 .build();
         userDao.register(user);
         log.info("User {} registered", userDto.getEmail());

@@ -14,14 +14,16 @@ public class UserDao {
     private final NamedParameterJdbcTemplate namedParameter;
 
     public void register(User user) {
-        String sql = "insert into users (username, email, password) " +
-                "values (:username, :email, :password)";
+        String sql = "insert into users (username, email, password, ENABLED, role_id) " +
+                "values (:username, :email, :password, :enabled, :roleId)";
 
         namedParameter.update(sql,
                 new MapSqlParameterSource()
                         .addValue("username", user.getUsername())
                         .addValue("email", user.getEmail())
                         .addValue("password", user.getPassword())
+                        .addValue("roleId", user.getRole_id())
+                        .addValue("enabled", true)
         );
     }
 }
