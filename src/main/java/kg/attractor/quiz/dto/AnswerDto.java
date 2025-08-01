@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 @Builder
 public class AnswerDto {
+
     @NotNull
     private Long questionId;
 

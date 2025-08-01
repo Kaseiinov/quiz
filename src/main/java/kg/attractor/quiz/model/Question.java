@@ -1,14 +1,11 @@
 package kg.attractor.quiz.model;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Data
 @Builder
-@Setter
-@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Question {
     private Long id;
     private String question;

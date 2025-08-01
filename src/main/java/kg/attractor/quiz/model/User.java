@@ -17,4 +17,6 @@ public class User {
     private String email;
     private String password;
 
+    private Boolean enabled;
+    private Long role_id;
 }

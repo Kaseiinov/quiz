@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 @Builder
 public class QuizDto {
+    private Long id;
     @NotBlank
     private String title;
     @NotBlank
@@ -18,8 +19,7 @@ public class QuizDto {
     private Long creatorId;
 
     @NotNull
-    private QuestionDto question;
+    private List<QuestionOptionDto> questionOptions;
 
-    @NotNull
-    private List<OptionDto> options;
+    private Integer countOfQuestions;
 }

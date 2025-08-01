@@ -2,6 +2,7 @@ package kg.attractor.quiz.exception;
 
 import kg.attractor.quiz.service.ErrorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
@@ -32,6 +33,21 @@ public class GlobalControllerAdvice {
     }
     @ExceptionHandler(DateTimeException.class)
     public ErrorResponse DateTimeExceptionHandler (DateTimeException ex){
+        return ErrorResponse.builder(ex, HttpStatus.BAD_REQUEST, ex.getMessage()).build();
+    }
+
+    @ExceptionHandler(EmptyResultDataAccessException.class)
+    public ErrorResponse emptyExceptionHandler (EmptyResultDataAccessException  ex){
+        return ErrorResponse.builder(ex, HttpStatus.NOT_FOUND, ex.getMessage()).build();
+    }
+
+    @ExceptionHandler(NullPointerException.class)
+    public ErrorResponse NullExceptionHandler (NullPointerException  ex){
+        return ErrorResponse.builder(ex, HttpStatus.NOT_FOUND, ex.getMessage()).build();
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ErrorResponse ExceptionHandler (Exception  ex){
         return ErrorResponse.builder(ex, HttpStatus.BAD_REQUEST, ex.getMessage()).build();
     }
 }
