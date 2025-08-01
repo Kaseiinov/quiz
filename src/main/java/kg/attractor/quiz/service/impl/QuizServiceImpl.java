@@ -16,7 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -29,22 +31,42 @@ public class QuizServiceImpl implements QuizService {
 
 
     @Override
-    public String getAnser(AnswerDto answerDto) {
-        User user = userDao.findById(answerDto.getUserId()).orElseThrow(NotFoundException::new);
-        Quiz quiz = quizDao.findByQuestionId(answerDto.getQuestionId()).orElseThrow(NotFoundException::new);
-        Question question = questionDao.getQuestionById(answerDto.getQuestionId()).orElseThrow(NotFoundException::new);
-        List<Option> options = optionDao.findByQuestionId(question.getId());
-        Option answer = new Option();
-        for (Option o : options) {
-            if(o.getId().equals(answerDto.getSelectedOptionId())){
-                answer = o;
+    public Map<Long, String> getAnswers(List<AnswerDto> answersDto, Long userId) {
+        User user = userDao.findById(userId).orElseThrow(NotFoundException::new);
+
+        Map<Long, String> results = new HashMap<>();
+        int correctCount = 0;
+
+        for (AnswerDto answerDto : answersDto) {
+            Question question = questionDao.getQuestionById(answerDto.getQuestionId())
+                    .orElseThrow(NotFoundException::new);
+
+            Quiz quiz = quizDao.findByQuestionId(question.getId())
+                    .orElseThrow(NotFoundException::new);
+
+            List<Option> options = optionDao.findByQuestionId(question.getId());
+
+            Option selectedOption = options.stream()
+                    .filter(option -> option.getId().equals(answerDto.getSelectedOptionId()))
+                    .findFirst()
+                    .orElseThrow(NotFoundException::new);
+
+            if (selectedOption.getIsCorrect()) {
+                results.put(question.getId(), "Correct");
+                correctCount++;
+            } else {
+                results.put(question.getId(), "Incorrect");
             }
         }
-        if(answer.getIsCorrect()){
-            quizDao.setScore(quiz.getId(), user.getId(), 1.0);
-            return "Correct answer";
+
+        if (!answersDto.isEmpty()) {
+            Long quizId = quizDao.findByQuestionId(answersDto.getFirst().getQuestionId())
+                    .orElseThrow(NotFoundException::new).getId();
+
+            quizDao.setScore(quizId, userId, (double) correctCount);
         }
-        return "Incorrect answer";
+
+        return results;
     }
 
 

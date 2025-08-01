@@ -20,14 +20,35 @@ public class QuizDao {
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameter;
 
-    public void setScore(Long quizId, Long userId, Double score){
-        String sql = "insert into quiz_results (user_id, quiz_id, score) values (:userId, :quizId, :scoreId)";
-        namedParameter.update(sql,
+    public void setScore(Long quizId, Long userId, Double score) {
+        String checkSql = "SELECT COUNT(*) FROM quiz_results WHERE user_id = :userId AND quiz_id = :quizId";
+        Integer count = namedParameter.queryForObject(
+                checkSql,
                 new MapSqlParameterSource()
                         .addValue("userId", userId)
-                        .addValue("quizId", quizId)
-                        .addValue("scoreId", score)
+                        .addValue("quizId", quizId),
+                Integer.class
         );
+
+        if (count != null && count > 0) {
+            String updateSql = "UPDATE quiz_results SET score = score + :score WHERE user_id = :userId AND quiz_id = :quizId";
+            namedParameter.update(
+                    updateSql,
+                    new MapSqlParameterSource()
+                            .addValue("userId", userId)
+                            .addValue("quizId", quizId)
+                            .addValue("score", score)
+            );
+        } else {
+            String insertSql = "INSERT INTO quiz_results (user_id, quiz_id, score) VALUES (:userId, :quizId, :score)";
+            namedParameter.update(
+                    insertSql,
+                    new MapSqlParameterSource()
+                            .addValue("userId", userId)
+                            .addValue("quizId", quizId)
+                            .addValue("score", score)
+            );
+        }
     }
 
     public Optional<Quiz> findByQuestionId(Long id) {

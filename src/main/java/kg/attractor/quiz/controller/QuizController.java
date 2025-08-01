@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/quizzes")
@@ -19,8 +20,8 @@ public class QuizController {
     private final QuizService quizService;
 
     @PostMapping("/{quizId}/solve")
-    public ResponseEntity<String> getAnswer(@RequestBody @Valid AnswerDto answerDto, @PathVariable Long quizId) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(quizService.getAnser(answerDto));
+    public ResponseEntity<Map<Long, String>> getAnswer(@RequestBody @Valid List<AnswerDto> answerDto, @PathVariable Long quizId, @RequestParam Long userId) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(quizService.getAnswers(answerDto, userId));
     }
 
     @PostMapping
