@@ -6,10 +6,7 @@ import kg.attractor.quiz.dao.QuizDao;
 import kg.attractor.quiz.dao.UserDao;
 import kg.attractor.quiz.dto.*;
 import kg.attractor.quiz.exception.NotFoundException;
-import kg.attractor.quiz.model.Option;
-import kg.attractor.quiz.model.Question;
-import kg.attractor.quiz.model.Quiz;
-import kg.attractor.quiz.model.User;
+import kg.attractor.quiz.model.*;
 import kg.attractor.quiz.service.QuizService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +26,31 @@ public class QuizServiceImpl implements QuizService {
     private final QuestionDao questionDao;
     private final OptionDao optionDao;
     private final UserDao userDao;
+
+    @Override
+    public List<StatisticsDto> getLeaderBoard(Long quizId) {
+        List<StatisticsDto> statisticsDto = new ArrayList<>();
+        List<User> users = new ArrayList<>();
+        List<Result> results = quizDao.getStatistics(quizId);
+
+        for (Result result : results) {
+            users.add(userDao.findById(result.getUserId()).orElseThrow(NotFoundException::new));
+        }
+
+        statisticsDto = results.stream()
+                .map(r -> StatisticsDto.builder()
+                        .email(users.stream()
+                                .filter(u -> u.getId().equals(r.getUserId()))
+                                .findFirst()
+                                .orElseThrow(NotFoundException::new)
+                                .getEmail())
+                        .score(r.getScore())
+                        .build())
+                .sorted((d1, d2) -> Double.compare(d2.getScore(), d1.getScore())) // сортировка по убыванию
+                .collect(Collectors.toList());
+
+        return statisticsDto;
+    }
 
     @Override
     public ResultDto getResult(Long quizId) {

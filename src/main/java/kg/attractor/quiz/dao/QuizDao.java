@@ -1,7 +1,9 @@
 package kg.attractor.quiz.dao;
 
 import kg.attractor.quiz.mapper.QuizMapper;
+import kg.attractor.quiz.mapper.ResultMapper;
 import kg.attractor.quiz.model.Quiz;
+import kg.attractor.quiz.model.Result;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -19,6 +21,11 @@ import java.util.Optional;
 public class QuizDao {
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameter;
+
+    public List<Result> getStatistics(Long quizId) {
+        String sql = "select * from quiz_results where quiz_id = ?";
+        return jdbcTemplate.query(sql, new ResultMapper(), quizId);
+    }
 
     public void setScore(Long quizId, Long userId, Double score) {
         String checkSql = "SELECT COUNT(*) FROM quiz_results WHERE user_id = :userId AND quiz_id = :quizId";
