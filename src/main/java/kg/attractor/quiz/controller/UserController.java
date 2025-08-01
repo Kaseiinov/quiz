@@ -1,37 +1,25 @@
 package kg.attractor.quiz.controller;
 
-import jakarta.validation.Valid;
-import kg.attractor.quiz.dto.UserDto;
-import kg.attractor.quiz.dto.QuizDto;
-import kg.attractor.quiz.service.QuizService;
+// import kg.attractor.quiz.dto.UserStatisticsDto;
 import kg.attractor.quiz.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
-    private final QuizService quizService;
 
-    @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@Valid @RequestBody UserDto userDto) {
-        userService.register(userDto);
-        return ResponseEntity.ok("User registered successfully");
-    }
-
-    @GetMapping("/quizzes")
-    public ResponseEntity<List<QuizDto>> getAllQuizzes() {
-        return ResponseEntity.ok(quizService.findQuizzes());
-    }
-
-    @GetMapping("/quizzes/{id}")
-    public ResponseEntity<QuizDto> getQuizById(@PathVariable Long id) {
-        return ResponseEntity.ok(quizService.findById(id));
-    }
+//    @GetMapping("/{userId}/statistics")
+//    public ResponseEntity<UserStatisticsDto> getUserStatistics(@PathVariable Long userId) {
+//        // TODO: Implement the logic in UserService to get statistics
+//        UserStatisticsDto stats = userService.getUserStatistics(userId);
+//        return ResponseEntity.ok(stats);
+//    }
 }
