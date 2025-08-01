@@ -29,6 +29,65 @@ public class QuizServiceImpl implements QuizService {
     private final OptionDao optionDao;
     private final UserDao userDao;
 
+    @Override
+    public ResultDto getResult(Long quizId) {
+        Quiz quiz = quizDao.findById(quizId);
+        List<Question> questions = questionDao.findQuestionsByQuizId(quizId);
+        List<Option> options = new ArrayList<>();
+        for (Question question : questions) {
+            options.addAll(optionDao.findByQuestionId(question.getId()));
+        }
+        List<Option> correctOptions = new ArrayList<>();
+        for (Option option : options) {
+            if(option.getIsCorrect()) {
+                correctOptions.add(option);
+            }
+        }
+        List<OptionDto> optionDtos = correctOptions
+                .stream()
+                .map(o -> OptionDto
+                        .builder()
+                        .id(o.getId())
+                        .question_id(o.getQuestionId())
+                        .option(o.getOption())
+                        .isCorrect(o.getIsCorrect())
+                        .build()).toList();
+
+        List<QuestionDto> questionDtos = questions
+                .stream()
+                .map(o -> QuestionDto
+                        .builder()
+                        .id(o.getId())
+                        .quiz_id(o.getQuizId())
+                        .question(o.getQuestion())
+                        .build()).toList();
+
+        List<QuestionOptionDto> qos = new ArrayList<>();
+        for (QuestionDto question : questionDtos) {
+            QuestionOptionDto questionOptionDto = new QuestionOptionDto();
+            questionOptionDto.setQuestion(question);
+            for(OptionDto option : optionDtos) {
+                if(option.getQuestion_id().equals(question.getId())){
+                    questionOptionDto.getOptions().add(option);
+                }
+            }
+            qos.add(questionOptionDto);
+
+        }
+
+        int correctOptionsCount = 0;
+        for (Option option : options) {
+            if(option.getIsCorrect()){
+                correctOptionsCount += 1;
+            }
+        }
+        ResultDto resultDto = new ResultDto();
+        resultDto.setCountQuestions(questions.size());
+        resultDto.setCountCorrectOptions(correctOptionsCount);
+        resultDto.setQuestionOptionDtos(qos);
+        resultDto.setOptions(options.size());
+        return resultDto;
+    }
 
     @Override
     public Map<Long, String> getAnswers(List<AnswerDto> answersDto, Long userId) {
