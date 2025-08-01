@@ -3,13 +3,13 @@ package kg.attractor.quiz.service.impl;
 import kg.attractor.quiz.dao.OptionDao;
 import kg.attractor.quiz.dao.QuestionDao;
 import kg.attractor.quiz.dao.QuizDao;
-import kg.attractor.quiz.dto.OptionDto;
-import kg.attractor.quiz.dto.QuestionDto;
-import kg.attractor.quiz.dto.QuestionOptionDto;
-import kg.attractor.quiz.dto.QuizDto;
+import kg.attractor.quiz.dao.UserDao;
+import kg.attractor.quiz.dto.*;
+import kg.attractor.quiz.exception.NotFoundException;
 import kg.attractor.quiz.model.Option;
 import kg.attractor.quiz.model.Question;
 import kg.attractor.quiz.model.Quiz;
+import kg.attractor.quiz.model.User;
 import kg.attractor.quiz.service.QuizService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,27 @@ public class QuizServiceImpl implements QuizService {
     private final QuizDao quizDao;
     private final QuestionDao questionDao;
     private final OptionDao optionDao;
+    private final UserDao userDao;
 
+
+    @Override
+    public String getAnser(AnswerDto answerDto) {
+        User user = userDao.findById(answerDto.getUserId()).orElseThrow(NotFoundException::new);
+        Quiz quiz = quizDao.findByQuestionId(answerDto.getQuestionId()).orElseThrow(NotFoundException::new);
+        Question question = questionDao.getQuestionById(answerDto.getQuestionId()).orElseThrow(NotFoundException::new);
+        List<Option> options = optionDao.findByQuestionId(question.getId());
+        Option answer = new Option();
+        for (Option o : options) {
+            if(o.getId().equals(answerDto.getSelectedOptionId())){
+                answer = o;
+            }
+        }
+        if(answer.getIsCorrect()){
+            quizDao.setScore(quiz.getId(), user.getId(), 1.0);
+            return "Correct answer";
+        }
+        return "Incorrect answer";
+    }
 
 
     @Override

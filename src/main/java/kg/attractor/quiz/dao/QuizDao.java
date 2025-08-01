@@ -12,12 +12,31 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 public class QuizDao {
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameter;
+
+    public void setScore(Long quizId, Long userId, Double score){
+        String sql = "insert into quiz_results (user_id, quiz_id, score) values (:userId, :quizId, :scoreId)";
+        namedParameter.update(sql,
+                new MapSqlParameterSource()
+                        .addValue("userId", userId)
+                        .addValue("quizId", quizId)
+                        .addValue("scoreId", score)
+        );
+    }
+
+    public Optional<Quiz> findByQuestionId(Long id) {
+        String sql = "select q.* \n" +
+                "from QUIZZES q\n" +
+                "join QUESTIONS qe on qe.QUIZ_ID = q.ID\n" +
+                "where qe.id = ?;";
+        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new QuizMapper(), id));
+    }
 
     public Quiz findById(Long id){
         String sql = "select * from quizzes where id = ?";

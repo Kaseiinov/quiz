@@ -9,6 +9,8 @@ import lombok.Data;
 @Builder
 public class AnswerDto {
     @NotNull
+    private Long userId;
+    @NotNull
     private Long questionId;
 
     @NotNull
