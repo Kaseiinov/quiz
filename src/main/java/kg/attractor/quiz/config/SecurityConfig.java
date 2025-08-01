@@ -61,11 +61,11 @@ public class SecurityConfig {
                                 "/api/quizzes/*",
                                 "/api/quizzes/*/leaderboard"
                         ).permitAll()
-
+//                                .requestMatchers(HttpMethod.POST, "/api/quizzes").fullyAuthenticated()
 
                         .requestMatchers(HttpMethod.POST, "/api/register").permitAll()
 
-                        .anyRequest().denyAll()
+                        .anyRequest().permitAll()
                 );
         return http.build();
     }
