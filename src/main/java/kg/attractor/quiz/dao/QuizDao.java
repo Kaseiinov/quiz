@@ -22,6 +22,12 @@ public class QuizDao {
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameter;
 
+    public double findAverageScore(long userId) {
+        String sql = "SELECT AVG(score) FROM quiz_results WHERE user_id = ?";
+        Double avg = jdbcTemplate.queryForObject(sql, Double.class, userId);
+        return Optional.ofNullable(avg).orElse(0.0);
+    }
+
     public boolean hasUserCompletedQuiz(Long quizId, Long userId) {
         String sql = "SELECT COUNT(*) > 0 FROM QUIZ_RESULTS WHERE quiz_id = ? AND user_id = ? AND score > 0";
         return jdbcTemplate.queryForObject(sql, Boolean.class, quizId, userId);

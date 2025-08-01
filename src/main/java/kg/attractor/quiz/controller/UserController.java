@@ -1,6 +1,7 @@
 package kg.attractor.quiz.controller;
 
 // import kg.attractor.quiz.dto.UserStatisticsDto;
+import kg.attractor.quiz.dto.StatisticsDto;
 import kg.attractor.quiz.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,9 @@ public class UserController {
 
     private final UserService userService;
 
-//    @GetMapping("/{userId}/statistics")
-//    public ResponseEntity<UserStatisticsDto> getUserStatistics(@PathVariable Long userId) {
-//        // TODO: Реализовать логику в UserService для получения статистики
-//        UserStatisticsDto stats = userService.getUserStatistics(userId);
-//        return ResponseEntity.ok(stats);
-//    }
+    @GetMapping("/{userId}/statistics")
+    public ResponseEntity<StatisticsDto> getStatistics(@PathVariable long userId) {
+        return ResponseEntity.ok(userService.getUserStatistics(userId));
+    }
+
 }
