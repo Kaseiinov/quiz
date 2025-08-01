@@ -16,14 +16,17 @@ public class UserServiceImpl implements UserService {
     private final UserDao userDao;
     private final PasswordEncoder encoder;
 
+    @Override
     public void register(UserDto userDto) {
         User user =  User
                 .builder()
                 .username(userDto.getUsername())
                 .email(userDto.getEmail())
                 .password(encoder.encode(userDto.getPassword()))
+                .role_id(userDto.getRole_id())
                 .build();
         userDao.register(user);
         log.info("User {} registered", userDto.getEmail());
     }
+
 }

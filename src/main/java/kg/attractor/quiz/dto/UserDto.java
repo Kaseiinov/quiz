@@ -1,9 +1,6 @@
 package kg.attractor.quiz.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
 
@@ -22,4 +19,8 @@ public class UserDto {
     @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-z]).+$"
             , message = "Should contain at least one uppercase letter, one number")
     private String password;
+
+    private Boolean enabled;
+    @NotNull
+    private Long role_id;
 }
