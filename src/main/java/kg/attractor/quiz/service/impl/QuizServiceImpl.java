@@ -5,6 +5,7 @@ import kg.attractor.quiz.dao.QuestionDao;
 import kg.attractor.quiz.dao.QuizDao;
 import kg.attractor.quiz.dao.UserDao;
 import kg.attractor.quiz.dto.*;
+import kg.attractor.quiz.exception.AlreadyCompletedException;
 import kg.attractor.quiz.exception.NotFoundException;
 import kg.attractor.quiz.model.*;
 import kg.attractor.quiz.service.QuizService;
@@ -113,7 +114,16 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public Map<Long, String> getAnswers(List<AnswerDto> answersDto, Long userId) {
+    public Map<Long, String> getAnswers(List<AnswerDto> answersDto, Long userId) throws AlreadyCompletedException {
+        if (!answersDto.isEmpty()) {
+            Long quizId = quizDao.findByQuestionId(answersDto.getFirst().getQuestionId())
+                    .orElseThrow(NotFoundException::new).getId();
+
+            if (quizDao.hasUserCompletedQuiz(quizId, userId)) {
+                throw new AlreadyCompletedException("User has already completed this quiz");
+            }
+        }
+
         User user = userDao.findById(userId).orElseThrow(NotFoundException::new);
 
         Map<Long, String> results = new HashMap<>();

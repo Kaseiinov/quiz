@@ -37,13 +37,18 @@ public class GlobalControllerAdvice {
     }
 
     @ExceptionHandler(EmptyResultDataAccessException.class)
-    public ErrorResponse DateTimeExceptionHandler (EmptyResultDataAccessException  ex){
+    public ErrorResponse emptyExceptionHandler (EmptyResultDataAccessException  ex){
         return ErrorResponse.builder(ex, HttpStatus.NOT_FOUND, ex.getMessage()).build();
     }
 
     @ExceptionHandler(NullPointerException.class)
-    public ErrorResponse DateTimeExceptionHandler (NullPointerException  ex){
+    public ErrorResponse NullExceptionHandler (NullPointerException  ex){
         return ErrorResponse.builder(ex, HttpStatus.NOT_FOUND, ex.getMessage()).build();
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ErrorResponse ExceptionHandler (Exception  ex){
+        return ErrorResponse.builder(ex, HttpStatus.BAD_REQUEST, ex.getMessage()).build();
     }
 }
 

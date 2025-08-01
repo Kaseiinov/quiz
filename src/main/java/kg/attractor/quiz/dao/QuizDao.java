@@ -22,6 +22,11 @@ public class QuizDao {
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameter;
 
+    public boolean hasUserCompletedQuiz(Long quizId, Long userId) {
+        String sql = "SELECT COUNT(*) > 0 FROM QUIZ_RESULTS WHERE quiz_id = ? AND user_id = ? AND score > 0";
+        return jdbcTemplate.queryForObject(sql, Boolean.class, quizId, userId);
+    }
+
     public List<Result> getStatistics(Long quizId) {
         String sql = "select * from quiz_results where quiz_id = ?";
         return jdbcTemplate.query(sql, new ResultMapper(), quizId);

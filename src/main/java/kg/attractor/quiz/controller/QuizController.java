@@ -5,6 +5,7 @@ import kg.attractor.quiz.dto.AnswerDto;
 import kg.attractor.quiz.dto.QuizDto;
 import kg.attractor.quiz.dto.ResultDto;
 import kg.attractor.quiz.dto.StatisticsDto;
+import kg.attractor.quiz.exception.AlreadyCompletedException;
 import kg.attractor.quiz.service.QuizService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ public class QuizController {
     }
 
     @PostMapping("/{quizId}/solve")
-    public ResponseEntity<Map<Long, String>> getAnswer(@RequestBody @Valid List<AnswerDto> answerDto, @PathVariable Long quizId, @RequestParam Long userId) {
+    public ResponseEntity<Map<Long, String>> getAnswer(@RequestBody @Valid List<AnswerDto> answerDto, @PathVariable Long quizId, @RequestParam Long userId) throws AlreadyCompletedException {
         return ResponseEntity.status(HttpStatus.CREATED).body(quizService.getAnswers(answerDto, userId));
     }
 
