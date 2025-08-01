@@ -18,7 +18,7 @@ public class UserController {
 
 //    @GetMapping("/{userId}/statistics")
 //    public ResponseEntity<UserStatisticsDto> getUserStatistics(@PathVariable Long userId) {
-//        // TODO: Implement the logic in UserService to get statistics
+//        // TODO: Реализовать логику в UserService для получения статистики
 //        UserStatisticsDto stats = userService.getUserStatistics(userId);
 //        return ResponseEntity.ok(stats);
 //    }
