@@ -4,6 +4,7 @@ import kg.attractor.quiz.dto.AnswerDto;
 import kg.attractor.quiz.dto.QuizDto;
 import kg.attractor.quiz.dto.ResultDto;
 import kg.attractor.quiz.dto.StatisticsDto;
+import kg.attractor.quiz.exception.AlreadyCompletedException;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,7 @@ public interface QuizService {
 
     ResultDto getResult(Long quizId);
 
-    Map<Long, String> getAnswers(List<AnswerDto> answersDto, Long userId);
+    Map<Long, String> getAnswers(List<AnswerDto> answersDto, Long userId) throws AlreadyCompletedException;
 
     QuizDto findById(Long id);
 
